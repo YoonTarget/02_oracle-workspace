@@ -5,16 +5,16 @@
             여러개의 값들을 하나의 그룹으로 묶어서 처리할 목적으로 사용
 */
 
-SELECT SUM (SALARY)
+SELECT SUM(SALARY)
 FROM EMPLOYEE; --> 전체 사원을 하나의 그룹으로 묶어서 총합을 구한 결과
 
 -- 각 부서별 총 급여 합
-SELECT DEPT_CODE, SUM (SALARY)
+SELECT DEPT_CODE, SUM(SALARY)
 FROM EMPLOYEE
 GROUP BY DEPT_CODE;
 
 -- 각 부서별 사원수
-SELECT DEPT_CODE, COUNT (*), SUM (SALARY)
+SELECT NVL(DEPT_CODE, '부서없음') AS "부서", COUNT (*) AS "사원 수", SUM (SALARY) AS "총 급여"
 FROM EMPLOYEE
 GROUP BY DEPT_CODE;
 
@@ -27,20 +27,24 @@ ORDER BY DEPT_CODE NULLS FIRST; -- 4
 SELECT DISTINCT JOB_CODE
 FROM EMPLOYEE;
 
+SELECT JOB_CODE
+FROM EMPLOYEE
+GROUP BY JOB_CODE;
+
 SELECT JOB_CODE, COUNT (*), SUM (SALARY)
 FROM EMPLOYEE
 GROUP BY JOB_CODE
 ORDER BY JOB_CODE;
 
 -- 각 직급별 총 사원수, 보너스를 받는 사원수, 급여합, 평균급여, 최저급여, 최대급여 별칭지어서! + 직급명 오름차순 정렬
-SELECT JOB_CODE AS "직급", COUNT (*) AS "총 사원 수", COUNT (BONUS) AS "보너스 받는 사원 수", SUM (SALARY) AS "급여 합",
+SELECT JOB_CODE AS "직급", COUNT (*) AS "총 사원 수", COUNT(BONUS) AS "보너스 받는 사원 수", SUM (SALARY) AS "급여 합",
               FLOOR(AVG (SALARY)) AS "평균 급여", MIN (SALARY) AS "최저 급여", MAX (SALARY) AS "최대 급여"
 FROM EMPLOYEE
 GROUP BY JOB_CODE
 ORDER BY 1;
 
 -- GROUP BY  절에 함수식 기술 가능
-SELECT DECODE (SUBSTR (EMP_NO, 8, 1), '1', '남', '2', '여'), COUNT (*)
+SELECT DECODE(SUBSTR(EMP_NO, 8, 1), '1', '남', '2', '여'), COUNT (*)
 FROM EMPLOYEE
 GROUP BY SUBSTR (EMP_NO, 8, 1);
 
@@ -80,11 +84,12 @@ FROM EMPLOYEE
 GROUP BY JOB_CODE
 HAVING SUM (SALARY) >= 10000000;
 
--- 부서별 보너스를 받는 사원이 없는 부서만을 조회 부서코드, 보너스를 받는 사원의 수
-SELECT DEPT_CODE, COUNT (*), COUNT (BONUS)
+-- 부서별 보너스를 받는 사원이 없는 부서만을 조회 (부서코드, 사원 수)
+SELECT DEPT_CODE, COUNT (*)
 FROM EMPLOYEE
 GROUP BY DEPT_CODE
-HAVING COUNT (BONUS) = 0;
+HAVING COUNT(BONUS) = 0
+ORDER BY DEPT_CODE;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 /*
