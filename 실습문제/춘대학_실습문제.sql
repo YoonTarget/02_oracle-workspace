@@ -201,8 +201,7 @@ JOIN TB_DEPARTMENT USING (DEPARTMENT_NO);
 SELECT CLASS_NAME, PROFESSOR_NAME
 FROM TB_CLASS
 JOIN TB_PROFESSOR USING (DEPARTMENT_NO)
-GROUP BY CLASS_NAME, PROFESSOR_NAME
-ORDER BY CLASS_NAME;
+GROUP BY CLASS_NAME, PROFESSOR_NAME;
 
 -- 9. 8번의 결과 중 '인문사회' 계열에 속한 과목의 교수 이름을 찾으려고 한다.
 -- 이에 해당하는 과목 이름과 교수 이름을 출력하는 SQL 문을 작성하시오.
@@ -248,18 +247,41 @@ ORDER BY STUDENT_NAME;
 
 -- 13. 예체능 계열 과목 중 과목 담당교수를 한 명도 배정받지 못한 과목을 찾아 그 과목 이름과
 -- 학과 이름을 출력하는 SQL 문장을 작성하시오.
-SELECT CLASS_NAME
-FROM TB_CLASS
-GROUP BY CLASS_NAME;
 
-SELECT * FROM TB_PROFESSOR;
-SELECT * FROM TB_CLASS_PROFESSOR;
 
+-- 14. 춘 기술대학교 서반아어학과 학생들의 지도교수를 게시하고자 한다.
+-- 학생이름과 지도교수 이름을 찾고 만일 지도교수가 없는 학생일 경우 "지도교수 미지정"으로
+-- 표시하도록 하는 SQL문을 작성하시오.
+-- 단, 출력헤더는 "학생이름", "지도교수"로 표시하며 고학번 학생이 먼저 표시되도록 한다.
+SELECT * FROM TB_STUDENT; --    DEPARTMENT_NO   STUDENT_NAME    COACH_PROFESSOR_NO
+SELECT * FROM TB_DEPARTMENT; -- DEPARTMENT_NO                                           DEPARTMENT_NAME
+SELECT * FROM TB_PROFESSOR; --                                  PROFESSOR_NO            PROFESSOR_NAME                
+
+-- 춘 기술대학교 서반아어학과 학생들
+SELECT STUDENT_NAME, COACH_PROFESSOR_NO
+FROM TB_STUDENT
+JOIN TB_DEPARTMENT USING (DEPARTMENT_NO)
+WHERE DEPARTMENT_NAME = '서반아어학과';
+
+-- 춘 기술대학교 서반아어학과 학생들을 지도교수와 매칭
+SELECT STUDENT_NAME AS "학생이름", NVL(PROFESSOR_NAME, '지도교수 미지정') AS "지도교수" -- NULL 값을 해당 문장으로 바꿔줌 
+FROM TB_STUDENT
+JOIN TB_DEPARTMENT USING (DEPARTMENT_NO)
+LEFT JOIN TB_PROFESSOR ON (COACH_PROFESSOR_NO = PROFESSOR_NO)
+-- NULL 값을 표현해야 하기 때문에 LEFT 사용해서 TB_STUDENT의 값을 모두 표현
+WHERE DEPARTMENT_NAME = '서반아어학과'
+ORDER BY STUDENT_NO;
+
+-- 15. 휴학생이 아닌 학생 중 평점이 4.0 이상인 학생을 찾아 그 학생의 학번, 이름, 학과, 이름, 평점을 출력하는 SQL 문을 작성하시오.
+-- 휴학생이 아닌 학생
 SELECT *
-FROM TB_DEPARTMENT
-JOIN TB_CLASS USING (DEPARTMENT_NO)
-JOIN TB_CLASS_PROFESSOR USING (CLASS_NO)
-JOIN TB_PROFESSOR USING (PROFESSOR_NO)
-WHERE CATEGORY = '예체능';
+FROM TB_STUDENT;
+
+
+
+
+
+
+
 
 
