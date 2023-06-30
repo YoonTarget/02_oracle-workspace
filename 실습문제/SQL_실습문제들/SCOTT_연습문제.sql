@@ -8,7 +8,8 @@ WHERE COMM IS NOT NULL;
 -- 2. EMP테이블에서 커미션을 받지 못하는 직원 조회
 SELECT *
 FROM EMP
-WHERE COMM IS NULL;
+WHERE COMM IS NULL
+OR COMM = 0;
 
 -- 3. EMP테이블에서 관리자가 없는 직원 정보 조회
 SELECT *
@@ -44,14 +45,14 @@ ORDER BY DEPTNO, HIREDATE DESC;
 SELECT SYSDATE FROM DUAL;
 
 -- 10. EMP테이블에서 사번, 사원명, 급여 조회 (단, 급여는 100단위까지의 값만 출력 처리하고 급여 기준 내림차순 정렬)
-SELECT EMPNO, ENAME, SUBSTR (SAL, 1, 3) AS "급여"
+SELECT EMPNO, ENAME, SUBSTR(SAL, 1, LENGTH(SAL) - 2) || '00' AS "급여"
 FROM EMP
 ORDER BY SAL DESC;
 
 -- 11. EMP테이블에서 사원번호가 홀수인 사원들을 조회
 SELECT *
 FROM EMP
-WHERE MOD (EMPNO, 2) != 0;
+WHERE MOD(EMPNO, 2) != 0;
 
 -- 12. EMP테이블에서 사원명, 입사일 조회 (단, 입사일은 년도와 월을 분리 추출해서 출력)
 SELECT ENAME, EXTRACT (YEAR FROM HIREDATE) || '년' AS "년도", EXTRACT (MONTH FROM  HIREDATE) || '월' AS "월"
@@ -65,7 +66,7 @@ WHERE EXTRACT (MONTH FROM HIREDATE) = 9;
 -- 14. EMP테이블에서 81년도에 입사한 직원 조회
 SELECT *
 FROM EMP
-WHERE EXTRACT (YEAR FROM HIREDATE) = 1981;
+WHERE EXTRACT (YEAR FROM HIREDATE) = '1981';
 
 -- 15. EMP테이블에서 이름이 'E'로 끝나는 직원 조회
 SELECT *
@@ -91,7 +92,7 @@ FROM EMP;
 -- 18. EMP테이블에서 입사일로부터 38년 이상 근무한 직원의 정보 조회
 SELECT *
 FROM EMP
-WHERE FLOOR ((SYSDATE - HIREDATE) / 365)  >= 38;
+WHERE (SYSDATE - HIREDATE) / 365  >= 38;
 
 -- 19. 오늘 날짜에서 년도만 추출
 SELECT EXTRACT (YEAR FROM SYSDATE) FROM DUAL;
