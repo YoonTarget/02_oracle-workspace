@@ -394,9 +394,9 @@ GROUP BY DEPARTMENT_NAME;
 -- 다음과 같은 테이블을 작성하시오.
 CREATE TABLE TB_CATEGORY(
     NAME VARCHAR2(10),
-    USE_YN CHAR(1)
+    USE_YN CHAR(1) DEFAULT 'Y'
 );
-
+DROP TABLE TB_CATEGORY;
 SELECT * FROM TB_CATEGORY;
 
 -- 2. 과목 구분을 저장할 테이블을 만들려고 한다. 다음과 같은 테이블을 작성하시오.
@@ -406,4 +406,11 @@ CREATE TABLE TB_CLASS_TYPE(
 );
 
 SELECT * FROM TB_CLASS_TYPE;
+
+-- 3. TB_CATEGORY 테이블의 NAME 컬럼에 PRIMARY KEY를 생성하시오.
+-- (KEY 이름을 생성하지 않아도 무방함. 만일 KEY 이름을 지정하고자 한다면 이름은 본인이 알아서 적당한 이름을 사용한다.)
+ALTER TABLE TB_CATEGORY ADD PRIMARY KEY (NAME);
+
+-- 4. TB_CLASS_TYPE 테이블의 NAME 컬럼에 NULL 값이 들어가지 않도록 속성을 변경하시오.
+ALTER TABLE TB_CLASS_TYPE MODIFY NAME NOT NULL;
 
