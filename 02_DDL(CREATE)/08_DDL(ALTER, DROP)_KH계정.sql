@@ -111,7 +111,7 @@ ALTER TABLE DEPT_COPY DROP CONSTRAINT DCOPY_PK;
 
 ALTER TABLE DEPT_COPY
     DROP CONSTRAINT DCOPY_UQ
-    MODIFY LNAME NULL;
+    MODIFY LNAME NULL;    
 --------------------------------------------------------------------------------
 -- 3) 컬럼명 / 제약조건명 / 테이블명 변경 (RENAME)
 -- 3_1) 컬럼명 변경 : RENAME COLUMN 기존 컬럼명 TO 바꿀 컬럼명

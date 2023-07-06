@@ -154,6 +154,8 @@ SELECT TRIM (LEADING 'Z' FROM 'ZZZZKHZZZ') FROM DUAL; -- LEADING : 앞 => LTRIM과
 SELECT TRIM (TRAILING 'Z' FROM 'ZZZZKHZZZ') FROM DUAL; -- TRAILING : 뒤 => RTRIM과 유사
 SELECT TRIM (BOTH 'Z' FROM 'ZZZZKHZZZ') FROM DUAL; -- BOTH : 양쪽 => 생략시 기본값
 
+SELECT TRIM ('Z' FROM 'ZZZZZZKKDFZZZ') FROM DUAL;
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /*
@@ -168,7 +170,7 @@ SELECT TRIM (BOTH 'Z' FROM 'ZZZZKHZZZ') FROM DUAL; -- BOTH : 양쪽 => 생략시 기본
 
 SELECT LOWER ('Welcome To My World!') FROM DUAL;
 SELECT UPPER ('Welcome To My World!') FROM DUAL;
-SELECT INITCAP ('welcome to my world!') FROM DUAL;
+SELECT INITCAP ('welcome TO my worLd!') FROM DUAL;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -207,6 +209,8 @@ FROM EMPLOYEE;
 SELECT ABS (-10) FROM DUAL;
 SELECT ABS (-5.7) FROM DUAL;
 
+SELECT ABS(-45.85) FROM DUAL;
+
 ----------------------------------------------------------------------------------------------------
 
 /*
@@ -218,6 +222,8 @@ SELECT ABS (-5.7) FROM DUAL;
 
 SELECT MOD (10, 3) FROM DUAL;
 SELECT MOD (10.9, 3) FROM DUAL;
+
+SELECT MOD(15, 3) FROM DUAL;
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -234,6 +240,8 @@ SELECT ROUND (123.456, 5) FROM DUAL; -- 그대로 나옴
 SELECT ROUND (123.456, -1) FROM DUAL;
 SELECT ROUND (123.456, -2) FROM DUAL;
 
+SELECT ROUND(12.542, 1) FROM DUAL;
+
 ------------------------------------------------------------------------------------------------------------------------------
 /*
         * CEIL
@@ -243,6 +251,8 @@ SELECT ROUND (123.456, -2) FROM DUAL;
 */
 
 SELECT CEIL (123.152) FROM DUAL; -- 5 이상이 아니어도 무조건 그냥 올림!! 위치지정 불가
+
+SELECT CEIL(123.456) FROM DUAL;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 /*
@@ -255,6 +265,8 @@ SELECT CEIL (123.152) FROM DUAL; -- 5 이상이 아니어도 무조건 그냥 올림!! 위치지�
 SELECT FLOOR (123.152) FROM DUAL; -- 무조건 버림, 위치지정 불가
 SELECT FLOOR (123.952) FROM DUAL;
 
+SELECT FLOOR(123.456) FROM DUAL;
+
 -----------------------------------------------------------------------------------------------------------------------------
 /*
         * TRUNC (절삭하다)
@@ -265,6 +277,8 @@ SELECT FLOOR (123.952) FROM DUAL;
 SELECT TRUNC (123.456) FROM DUAL; -- 위치지정 안 하면 FLOOR이랑 동일함
 SELECT TRUNC (123.456, 1) FROM DUAL; -- 소수점 아래 첫째 자리까지 표현하고 싶다
 SELECT TRUNC (123.456, -1) FROM DUAL;
+
+SELECT TRUNC(456.84, 1) FROM DUAL;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 /*
@@ -281,9 +295,13 @@ SELECT EMP_NAME, HIRE_DATE, FLOOR(SYSDATE - HIRE_DATE) || '일' AS "근무일수",
 CEIL(MONTHS_BETWEEN (SYSDATE, HIRE_DATE)) || '개월' AS "근무 개월수"
 FROM EMPLOYEE;
 
+SELECT MONTHS_BETWEEN(SYSDATE, '20/02/20') FROM DUAL;
+
 --  * ADD_MONTHS (DATE, NUMBER) : 특정날짜에 해당 숫자만큼의 개월 수를 더해서 날짜를 리턴
 -- => 결과값 : DATE 타입
 SELECT ADD_MONTHS (SYSDATE, 6) FROM DUAL;
+
+SELECT ADD_MONTHS(SYSDATE, 6) FROM DUAL;
 
 -- EMPLOYEE에서 사원명, 일사입, 입사 후 6개월이 된 날짜 조회
 SELECT EMP_NAME, HIRE_DATE, ADD_MONTHS (HIRE_DATE, 6) AS "수습 종료 날짜"
@@ -296,6 +314,8 @@ SELECT SYSDATE, NEXT_DAY (SYSDATE, '금') FROM DUAL;
 -- 1. 일요일 2. 월요일 ...
 SELECT SYSDATE, NEXT_DAY ('20240311', 7) FROM DUAL;
 SELECT SYSDATE, NEXT_DAY (SYSDATE, 'FRI') FROM DUAL; -- 현재 언어가 KOREAN 이기 때문
+
+SELECT NEXT_DAY(SYSDATE, '목요일') FROM DUAL;
 
 -- 언어 변경
 SELECT * FROM NLS_SESSION_PARAMETERS;
@@ -311,6 +331,8 @@ SELECT LAST_DAY(SYSDATE) FROM DUAL;
 SELECT EMP_NAME, HIRE_DATE, LAST_DAY(HIRE_DATE), LAST_DAY (HIRE_DATE) - HIRE_DATE || '일'
 FROM EMPLOYEE;
 
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+
 /*
         * EXTRACT : 특정 날짜로부터 년도 | 월 | 일 값을 추출해서 반환하는 함수
         
@@ -325,6 +347,8 @@ FROM EMPLOYEE;
 SELECT EMP_NAME, EXTRACT (YEAR FROM HIRE_DATE) AS "입사년도", EXTRACT (MONTH FROM HIRE_DATE) AS "입사월", EXTRACT (DAY FROM HIRE_DATE) AS "입사일"
 FROM EMPLOYEE
 ORDER BY "입사년도", "입사월", "입사일";
+
+SELECT EXTRACT(YEAR FROM SYSDATE), EXTRACT(MONTH FROM SYSDATE), EXTRACT(DAY FROM SYSDATE) FROM DUAL;
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 /*
         < 형변환 함수 >
@@ -345,6 +369,8 @@ SELECT TO_CHAR (1234, 'L99,999') FROM DUAL;
 SELECT EMP_NAME, TO_CHAR (SALARY, 'L999,999,999')
 FROM EMPLOYEE;
 
+SELECT TO_CHAR(456) FROM DUAL;
+
 -- 날짜 타입 => 문자 타입
 SELECT SYSDATE FROM DUAL;
 SELECT TO_CHAR (SYSDATE) FROM DUAL; -- 클릭해보면 다름
@@ -353,12 +379,16 @@ SELECT TO_CHAR (SYSDATE, 'HH24 : MI : SS') FROM DUAL; -- HH24 : 24시간 형식
 SELECT TO_CHAR (SYSDATE, 'YYYY-MM-DD DAY DY') FROM DUAL;
 SELECT TO_CHAR (SYSDATE, 'MON, YYYY') FROM DUAL;
 
+SELECT TO_CHAR(SYSDATE) FROM DUAL;
+
 SELECT EMP_NAME, HIRE_DATE, TO_CHAR (HIRE_DATE, 'YYYY-MM-DD')
 FROM EMPLOYEE;
 
 -- EX) 1990년 02월 06일 형식으로
 SELECT TO_CHAR (HIRE_DATE, 'YYYY"년" MM"월" DD"일"') -- 없는 포맷을 제시할 때는 "" 이거로 묶기
- FROM EMPLOYEE;
+FROM EMPLOYEE;
+ 
+SELECT TO_CHAR(SYSDATE, 'YY"년" MM"월" DD"일"') FROM DUAL;
  
  -- 년도와 관련된 포맷
  SELECT TO_CHAR (SYSDATE, 'YYYY'), 
@@ -385,6 +415,8 @@ SELECT TO_CHAR (HIRE_DATE, 'YYYY"년" MM"월" DD"일"') -- 없는 포맷을 제시할 때는 
  SELECT TO_CHAR (SYSDATE, 'DAY'),
                TO_CHAR (SYSDATE, 'DY')
  FROM DUAL;
+ 
+SELECT TO_CHAR(100000 , 'L999,999') FROM DUAL;
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 /*
@@ -397,6 +429,7 @@ SELECT TO_DATE (20100101) FROM DUAL;
 SELECT TO_DATE (100101) FROM DUAL;
 
 SELECT TO_DATE (070101) FROM DUAL; -- 에러
+-- ORA-01861: literal does not match format string
 SELECT TO_DATE ('070101') FROM DUAL; -- 첫 글자가 0인 경우에는 문자타입으로 변경하고 해야함
 
 SELECT TO_DATE ('041030 143000') FROM DUAL; -- 에러
@@ -408,6 +441,9 @@ SELECT TO_DATE ('980630', 'YYMMDD') FROM DUAL; -- 2098년 => 무조건 현재 세기로 �
 SELECT TO_DATE ('140630', 'RRMMDD') FROM DUAL; -- 2014년
 SELECT TO_DATE ('980630', 'RRMMDD') FROM DUAL; -- 1998년
 -- RR : 해당 두자리 년도 값이 50 미만일 경우 현재 세기 반영, 50 이상일 경우 이전 세기 반영
+
+-- SELECT TO_DATE(1999) FROM DUAL;
+-- ORA-01861: literal does not match format string
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 /*
@@ -423,6 +459,9 @@ SELECT '10000000' + '55000' FROM DUAL;  --> 오라클에서는 자동 형변환이 잘 되어있
 SELECT '10,000,000' + '55,000' FROM DUAL; -- 오류남!! 안에 숫자만 있어야 자동 형변환 된다
 
 SELECT TO_NUMBER ('10,000,000', '99,999,999') + TO_NUMBER ('55,000', '99,999') FROM DUAL; -- 강제 형변환
+
+-- SELECT TO_NUMBER('1,000,000', 'L9,999,999') FROM DUAL;
+-- ORA-01722: invalid number
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 /*
