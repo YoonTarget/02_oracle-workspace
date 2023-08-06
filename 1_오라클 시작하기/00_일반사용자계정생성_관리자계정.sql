@@ -13,7 +13,6 @@ SELECT * FROM DBA_USERS; -- 이건 관리자 계정으로 들어왔기 때문에 보인다.
 -- [표현법] CREATE USER 계정명 IDENTIFIED BY 비밀번호;
 
 CREATE USER kh IDENTIFIED BY kh; -- 계정명은 대소문자 안 가림
-
 -- 계정 추가해보기 => 오류!!
 
 -- 위에서 생성된 일반 사용자 계정에게 최소한의 권한 (데이터 관리, 접속) 부여

@@ -13,23 +13,29 @@
 
 -- EMPLOYEE 테이블의 모든 컬럼(*) 조회
 --SELECT EMP_ID, EMP_NAME
-
+SELECT *
+FROM EMPLOYEE;
 
 -- EMPLOYEE 테이블의 사번, 이름, 급여 조회
-
+SELECT EMP_NO, EMP_NAME, SALARY
+FROM EMPLOYEE;
 
 -- JOB 테이블의 모든 컬럼 조회
-
+SELECT *
+FROM JOB;
 
 -------------------------------------실습문제------------------------------------
 -- 1. JOB 테이블의 직급명만 조회
-
+SELECT JOB_NAME
+FROM JOB;
 
 -- 2. DEPARTMENT 테이블의 모든 컬럼 조회
-
+SELECT *
+FROM DEPARTMENT;
 
 -- 3. DEPARTMENT 테이블의 부서코드, 부서명 조회
-
+SELECT DEPT_ID, DEPT_TITLE
+FROM DEPARTMENT;
 
 -- 4. EMPLOYEE 테이블의 사원명, 이메일, 전화번호, 입사일, 급여 조회
 
